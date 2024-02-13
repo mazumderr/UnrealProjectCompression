@@ -21,8 +21,19 @@ New-Item -Path $DestinationPath -ItemType Directory
 Write-Host "Making a backup of your files..."
 Copy-Item -Path "$LabPath\*" -Destination "$DestinationPath" -Recurse
 
-# Compress it all 
+# Delete unneeded folders from backup
 Write-Host "Compressing..."
+Remove-Item "$DestinationPath\Content\StarterContent"
+Remove-Item "$DestinationPath\Intermediate"
+Remove-Item "$DestinationPath\Saved"
+Remove-Item "$DestinationPath\Binaries"
+Remove-Item "$DestinationPath\DerivedDataCache"
+Remove-Item "$DestinationPath\.vs"
+Remove-Item "$DestinationPath\.idea"
+
+
+
+# Compress it all 
 Compress-Archive -LiteralPath "$DestinationPath" -DestinationPath "$Env:UnrealPath\$CompressName.zip"
 
 # Delete backup
